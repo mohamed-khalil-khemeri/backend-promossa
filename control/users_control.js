@@ -31,6 +31,7 @@ module.exports = {
         new User_model({
             name: req.body.name,
             email: req.body.email,
+            emailVerified : false,
             password: hashed_password,
             phone: req.body.phone,
             birthday: req.body.birthday,
@@ -57,15 +58,17 @@ module.exports = {
 
     log_one: async (req, res, next) => {
 
-        let logger = await User_model.findOne({ userName: req.body.userName });
+        let logger = await User_model.findOne({ email: req.body.email });
         if (!logger) return res.status(400).send("Email not found");
 
-        const pass = await bcrypt.compare(req.body.passWord, logger.passWord);
+        const pass = await bcrypt.compare(req.body.password, logger.password);
         if (!pass) return res.status(400).send("Password did not match");
 
         const token = logger.token_gen()
 
-        res.header("x-auth-token", token).send(logger)
+        res.header("x-auth-token", token).send("marhba bik ! ")
+        // res.header("x-auth-token", token).send(logger)
+
         // res.send("logger penetrated successfully, token :", token)
 
     },

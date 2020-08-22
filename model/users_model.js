@@ -10,6 +10,7 @@ const config = require("config");
 const usersSchema = new mongoose.Schema({
     name: String,
     email: {type : String, unique: true},
+    emailVerified : Boolean,
     password: String,
     phone: String,
     birthday: String,
