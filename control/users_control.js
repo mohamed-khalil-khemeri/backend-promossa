@@ -26,20 +26,30 @@ module.exports = {
     },
 
     post_one: async (req, res, next) => {
-        const hashed_password = await bcrypt.hash(req.body.passWord, 10);
+
+        const hashed_password = await bcrypt.hash(req.body.password, 10);
         new User_model({
-            userName: req.body.userName,
-            userMail: req.body.userMail,
-            passWord: hashed_password,
-            //passWord: req.body.passWord,
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            userPhone: req.body.userPhone,
-            userPost: req.body.userPost
+            name: req.body.name,
+            email: req.body.email,
+            password: hashed_password,
+            phone: req.body.phone,
+            birthday: req.body.birthday,
+            adress: req.body.adress,
+            genre: req.body.genre,
+            role: req.body.role
         })
-            .save()
-            .then(x => res.send(x))
-            .catch(r => res.send(r.message))
+            .save(function (err, result) {
+
+                
+                if (err) res.send(err);
+                else {
+                    console.log(result);
+                    res.send({ "code": 200, "message": "Record inserted successfully" });
+                }
+
+            })
+             .then(x => { console.log("res : ", x); res.send({ "code": 200, "message": "Record inserted successfully" }); })
+             .catch(r => res.send(r.message))
 
 
 

@@ -8,22 +8,23 @@ const config = require("config");
 //     .catch(err => console.error("unable to connect to mongo db ", err));
 
 const usersSchema = new mongoose.Schema({
-    userName: String,
-    userMail: String,
+    name: String,
+    email: {type : String, unique: true},
     passWord: String,
-    firstName: String,
-    lastName: String,
-    userPhone: String,
-    userPost: String,
+    phone: String,
+    birthday: String,
+    adress: { street: String, gov: String, deleg: String },
+    genre: String,
+    role: String,
 })
 usersSchema.methods.token_gen = function () {
 
     const token = jwt.sign(
         {
             _id: this._id,
-            firstName: this.firstName,
-            userName : this.userName,
-            userPost: this.userPost
+            name: this.name,
+            email : this.email,
+            role : this.role
         },
         config.get("mysecretjwtkey"));
         return token;

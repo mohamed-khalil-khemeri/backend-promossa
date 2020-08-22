@@ -35,7 +35,7 @@ app.use([bodyParser.urlencoded({ extended: true }), bodyParser.json()]);
 app.use("/public_img", express.static("public_img"))
 
 //mongo atlas connection
-mongoose.connect("mongodb+srv://FirstClusterUser:1234567887654321@firstcluster.s6ozl.mongodb.net/lital?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect("mongodb+srv://FirstClusterUser:1234567887654321@firstcluster.s6ozl.mongodb.net/promossa?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
     .then(() => console.log("connected to mongo atlas db ..."))
     .catch(err => console.error("unable to connect to mongo db ", err));
 
