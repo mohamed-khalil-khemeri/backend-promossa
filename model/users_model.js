@@ -10,7 +10,7 @@ const config = require("config");
 const usersSchema = new mongoose.Schema({
     name: String,
     email: {type : String, unique: true},
-    passWord: String,
+    password: String,
     phone: String,
     birthday: String,
     adress: { street: String, gov: String, deleg: String },
