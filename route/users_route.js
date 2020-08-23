@@ -10,6 +10,8 @@ router.get("/:id", [auth, perm("Administrateur")], users_control.get_one_by_id);
 
 router.post("/", users_control.post_one);
 
+router.post("/confirmEmail/:id", users_control.confirmEmail_by_id);
+
 router.post("/log", users_control.log_one);
 
 router.put("/:id", [auth, perm("Administrateur")], users_control.put_one_by_id);
