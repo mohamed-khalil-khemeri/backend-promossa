@@ -61,6 +61,8 @@ module.exports = {
         let logger = await User_model.findOne({ email: req.body.email });
         if (!logger) return res.status(400).send("Email not found");
 
+        if (logger.emailVerified == false)  {return res.status(400).send("Email not verified after registration, go to your inbox to verify");}
+
         const pass = await bcrypt.compare(req.body.password, logger.password);
         if (!pass) return res.status(400).send("Password did not match");
 
