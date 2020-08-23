@@ -83,24 +83,23 @@ app.use("/products", products_route);
 // end upload feature
 
 //routes and their middlewares : magasins
-const magasin_route = require("./route/magasin_route");
-app.use("/magasins", magasin_route);
+const magasins_route = require("./route/magasins_route");
+app.use("/magasins", magasins_route);
 
+//routes and their middlewares : categories
+const categories_route = require("./route/categories_route");
+app.use("/categories", categories_route);
 
+//routes and their middlewares : categories
+const articles_route = require("./route/articles_route");
+app.use("/articles", articles_route);
+
+//routes and their middlewares : categories
+const catalogues_route = require("./route/catalogues_route");
+app.use("/catalogues", catalogues_route);
 
 app.listen(3002);
 // module.exports = app;
 
 
 
-// const formData = new FormData();
-// formData.append("photo", data.photo[0]);
-// formData.set("annee", data.annee);
-// formData.set("commentaire", data.commentaire);
-// formData.set("createur", data.createur);
-// formData.set("gamme", data.gamme);
-// formData.set("mesure", data.mesure);
-// formData.set("modele", data.modele);
-// formData.set("name", data.name);
-// formData.set("saison", data.saison);
-// formData.set("sex", data.sex);
