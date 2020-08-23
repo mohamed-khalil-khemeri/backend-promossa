@@ -78,14 +78,17 @@ function fileFilter(req, file, cb) {
 }
 
 let upload = multer({ storage: storage, fileFilter: fileFilter })
-app.use("/*", upload.single("photo"))
+app.use("/*", upload.single("logo"))
 app.use("/products", products_route);
-
-
 // end upload feature
 
+//routes and their middlewares : magasins
+const magasin_route = require("./route/magasin_route");
+app.use("/magasins", magasin_route);
 
-app.listen(3001);
+
+
+app.listen(3002);
 // module.exports = app;
 
 
