@@ -18,7 +18,7 @@ const cataloguesSchema = new mongoose.Schema({
         },
         promo: {
             typexxx: String,
-            pourcentage : String
+            pourcentage: String
         },
         pricing: {
             ancientprice: String,
