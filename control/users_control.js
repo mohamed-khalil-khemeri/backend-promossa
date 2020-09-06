@@ -68,7 +68,7 @@ module.exports = {
                         <p>You have successfully registered with Promossa.com</p>
                         <p>to confirm your email address:</p>
                         <p>Please, press the link below or copy the following link in the address bar of your browser </p>
-                        <a href =${"http://localhost:3000/confirmEmail/"+result._id} target="_blank">${"http://localhost:3000/confirmEmail/"+result._id} </a>
+                        <a href =${"http://localhost:3000/confirmEmail/" + result._id} target="_blank">${"http://localhost:3000/confirmEmail/" + result._id} </a>
                         `
                     };
 
@@ -161,6 +161,72 @@ module.exports = {
             .exec()
             .then(x => res.send(x))
             .catch(r => res.send(r.message))
+
+
+    },
+    mail_carted: async (req, res, next) => {
+        // node mailer 
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            secure: false,//true
+            port: 25,//465
+            auth: {
+                user: 'koumakou007@gmail.com',
+                pass: 'koumakoukoumakou'
+            }
+        });
+
+        var mailOptions = {
+            from: 'Promossa<promossa@gmail.com>',
+            to: req.body.userInfo.email,
+            subject: 'votre liste est prête',
+            html:
+                `
+            <h1>Dear ${req.body.userInfo.name}</h1>
+            <p>marhba bik fi Promossa.com</p>
+            <p>Ci contre est votre liste :</p>
+            ${`
+                <table style="border : 1px solid">
+                    <tr>
+                        <th  style="border : 1px solid">Nom</th>
+                        <th style="border : 1px solid">Prix unitaire</th>
+                    </tr>
+                    ${
+                req.body.magasins.map((x) =>
+                    `
+                                <tr>
+                                    <td  style="background-color: gold;border : 1px solid" colspan="6">Magasin : ${x}</td>
+                                </tr>
+
+                                ${req.body.carted.map((e) =>
+                        e.magasin.name == x ? (
+                            ` <tr key=${e._id}>
+                                            <td  style="border : 1px solid">${e.article.name}</td>
+                                            <td  style="border : 1px solid">
+                                                ${e.pricing.newprice.replace(
+                                /(\d)(?=(\d{3})+$)/g,
+                                "$1 "
+                            )}
+                                            </td>
+                               </tr>`
+                        ) : null)}
+                            `)
+                }
+    </table >`}
+            <p> a bientot</p >
+    `
+        };
+
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+        });
+
+        // end nodemailer
+
 
 
     }

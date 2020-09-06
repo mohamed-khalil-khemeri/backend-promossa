@@ -66,7 +66,7 @@ let storage = multer.diskStorage({
 })
 function fileFilter(req, file, cb) {
 
-    var filetypes = /jpeg|jpg|png/;
+    var filetypes = /jpeg|jpg|png|webp/;
     var mimetype = filetypes.test(file.mimetype);
     var extname = filetypes.test(path.extname(file.originalname).toLowerCase());
 

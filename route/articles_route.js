@@ -7,13 +7,13 @@ const articles_control = require("../control/articles_control");
 
 
 router.get("/", articles_control.get_all);
-router.get("/:id", [auth, perm("Administrateur", "Opérateur")], articles_control.get_one_by_id);
+router.get("/:id", [auth, perm("admin", "client")], articles_control.get_one_by_id);
 
-router.post("/", articles_control.post_one);
+router.post("/", [auth, perm("admin")], articles_control.post_one);
 
-router.put("/:id", [auth, perm("Administrateur", "Opérateur")], articles_control.put_one_by_id);
+router.put("/:id", [auth, perm("admin")], articles_control.put_one_by_id);
 
-router.delete("/:id", [auth, perm("Administrateur", "Opérateur")], articles_control.delete_one_by_id);
+router.delete("/:id", [auth, perm("admin")], articles_control.delete_one_by_id);
 
 
 module.exports = router;
