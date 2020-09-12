@@ -191,8 +191,7 @@ module.exports = {
                         <th  style="border : 1px solid">Nom</th>
                         <th style="border : 1px solid">Prix unitaire</th>
                     </tr>
-                    ${
-                req.body.magasins.map((x) =>
+                    ${req.body.magasins.map((x) =>
                     `
                                 <tr>
                                     <td  style="background-color: gold;border : 1px solid" colspan="6">Magasin : ${x}</td>
@@ -227,7 +226,100 @@ module.exports = {
 
         // end nodemailer
 
+    },
+    passReset1: async (req, res, next) => {
 
 
+        let logger = await User_model.findOne({ email: req.params.email });
+        if (!logger) return res.status(400).send("Email not found");
+
+        if (logger.emailVerified == false) {
+            const Email_will_be_verified =  async (req, res, next) => {
+                User_model.update(
+                    {
+                        _id: logger._id
+                    },
+                    {
+                        $set:
+                        {
+                            emailVerified: true
+                        }
+                    })
+                    .exec()
+                    // .then(x => res.send(x))
+                    // .catch(r => res.send(r.message))
+        
+        
+            };
+            Email_will_be_verified();
+         }
+
+
+        const token = logger.token_gen()
+
+       
+
+
+        // node mailer 
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            secure: false,//true
+            port: 25,//465
+            auth: {
+                user: 'koumakou007@gmail.com',
+                pass: 'koumakoukoumakou'
+            }
+        });
+
+        var mailOptions = {
+            from: 'Promossa<promossa@gmail.com>',
+            to: req.params.email,
+            subject: 'recover your password',
+            html:
+                `
+            <h1>Dear ${logger.email}</h1>
+            <p>marhba bik fi Promossa.com</p>
+            <p>cliquer sur ce lien pour changer votre mot de passe :</p>
+            <a href =${"http://localhost:3000/passreset2/" + token + "/" + logger._id} target="_blank">${"http://localhost:3000/passreset2/" + token + "/" + logger._id} </a>
+            
+               
+            <p> a bientot</p >
+    `
+        };
+
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+        });
+
+        // end nodemailer
+
+
+
+    },
+
+    passReset2: async (req, res, next) => {
+        console.log("111");
+        const hashed_password2 = await bcrypt.hash(req.body.password, 10);
+        console.log("222");
+
+        User_model.update(
+            {
+                _id: req.params._id
+            },
+            {
+                $set:
+                {
+                    password: hashed_password2
+                }
+            })
+            .exec()
+            .then(x => res.send(x))
+            .catch(r => res.send(r.message))
+
+            console.log("new hashed password : ",hashed_password2);
     }
 }

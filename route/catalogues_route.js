@@ -7,7 +7,7 @@ const catalogues_control = require("../control/catalogues_control");
 
 
 router.get("/", catalogues_control.get_all);
-router.get("/:id", [auth, perm("Administrateur", "Opérateur")], catalogues_control.get_one_by_id);
+router.get("/:id", [auth], catalogues_control.get_one_by_id);
 
 router.post("/", [auth, perm("admin")], catalogues_control.post_one);
 

@@ -11,6 +11,8 @@ router.get("/:id", [auth, perm("admin")], users_control.get_one_by_id);
 router.post("/", users_control.post_one);
 
 router.post("/confirmEmail/:id", users_control.confirmEmail_by_id);
+router.post("/passreset1/:email", users_control.passReset1);
+router.post("/passreset2/:_id", auth, users_control.passReset2);
 
 router.post("/log", users_control.log_one);
 
