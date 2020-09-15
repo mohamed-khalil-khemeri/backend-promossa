@@ -165,6 +165,8 @@ module.exports = {
 
     },
     mail_carted: async (req, res, next) => {
+
+        // console.log("req : ",req.body);
         // node mailer 
         var transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -185,35 +187,23 @@ module.exports = {
             <h1>Dear ${req.body.userInfo.name}</h1>
             <p>marhba bik fi Promossa.com</p>
             <p>Ci contre est votre liste :</p>
-            ${`
-                <table style="border : 1px solid">
-                    <tr>
-                        <th  style="border : 1px solid">Nom</th>
-                        <th style="border : 1px solid">Prix unitaire</th>
-                    </tr>
-                    ${req.body.magasins.map((x) =>
-                    `
+            ${req.body.magasins.map((x) =>
+                    `<h4  style="width: fit-content;background-color: gold;border : 1px solid">Magasin : ${x}</h4>
+                                <table style="border : 1px solid">
                                 <tr>
-                                    <td  style="background-color: gold;border : 1px solid" colspan="6">Magasin : ${x}</td>
-                                </tr>
-
-                                ${req.body.carted.map((e) =>
+                                    <th  style="border : 1px solid">Nom</th>
+                                    <th  style="border : 1px solid">Fin Promo</th>
+                                    <th style="border : 1px solid">Prix unitaire</th>
+                                </tr>${req.body.carted.map((e) =>
                         e.magasin.name == x ? (
-                            ` <tr key=${e._id}>
+                            `<tr key=${e._id}>
                                             <td  style="border : 1px solid">${e.article.name}</td>
+                                            <td  style="border : 1px solid">${e.period.fin}</td>
                                             <td  style="border : 1px solid">
-                                                ${e.pricing.newprice.replace(
-                                /(\d)(?=(\d{3})+$)/g,
-                                "$1 "
-                            )}
+                                                ${e.pricing.newprice.replace(/(\d)(?=(\d{3})+$)/g,"$1 ")}
                                             </td>
                                </tr>`
-                        ) : null)}
-                            `)
-                }
-    </table >`}
-            <p> a bientot</p >
-    `
+                        ) : null)}</table >`)}<p> a bientot</p >`
         };
 
         transporter.sendMail(mailOptions, function (error, info) {
