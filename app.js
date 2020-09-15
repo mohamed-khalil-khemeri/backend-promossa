@@ -46,8 +46,7 @@ app.use("/users", users_route);
 const products_route = require("./route/products_route");
 //app.use("/products", products_route);
 
-const history_route = require("./route/history_route");
-app.use("/history", history_route);
+
 
 
 
